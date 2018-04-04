@@ -1,68 +1,46 @@
 class Node(object):
-
-    def __init__ (self, d, n = None):
+    def __init__(self, d, n= None):
         self.data = d
         self.next_node = n
-
-    def get_next (self):
+    def get_next(self):
         return self.next_node
-
-    def set_next (self, n):
+    def set_next(self,n):
         self.next_node = n
-
-    def get_data (self):
+    def get_data(self):
         return self.data
-
-    def set_data (self, d):
+    def set_data(self,d):
         self.data = d
 
-    def has_next(self):
-        if self.get_next() is None:
-           return False
-        else:
-          return True
-    def to_string(self):
-        return "Node Value: "+ str(self.data)
-    
-
-
-class LinkedList (object):
-
-    def __init__(self, r = None):
+class LinkedList(object):
+    def __init__(self,r =None):
         self.root = r
         self.size = 0
-
-    def get_size (self):
+        
+    def get_size(self):
         return self.size
-
-    def add_node (self, n):
-        n.set_next(self.root);
-        self.root = n;
-        self.size += 1;
-
-    def add (self, d):
-        new_node = Node (d, self.root)
+    
+    def add(self,d):
+        new_node = Node(d, self.root)
         self.root = new_node
-        self.size += 1
-
-    def remove (self, d):
+        self.size +=1
+        
+    def remove(self,d):
         this_node = self.root
         prev_node = None
-
         while this_node:
             if this_node.get_data() == d:
                 if prev_node:
                     prev_node.set_next(this_node.get_next())
                 else:
                     self.root = this_node.get_next()
-                self.size -= 1
-                return True		
+                self.size -=1
+                return True
             else:
                 prev_node = this_node
                 this_node = this_node.get_next()
-        return False  # data not found
-
-    def find (self, d):
+        return False
+    
+    def find (self,d):
         this_node = self.root
         while this_node:
             if this_node.get_data() == d:
@@ -70,47 +48,47 @@ class LinkedList (object):
             else:
                 this_node = this_node.get_next()
         return None
+
     def print_list(self):
-        if self.root is None:
-            return
-        current = self.root
-        print(current.to_string())
-        while current.has_next():
-            current = current.get_next();
-            print(current.to_string())
-        return self; 
+        this_node = self.root
+        i = 0
+        while this_node:
+            print(i, '---' , this_node.get_data())
+            this_node = this_node.get_next()
+            i +=1
+    def add_node(self,n):
+        n.set_next(self.root)
+        self.root = n
+        self.size +=1       
+    
+    def sort_list(self):
+        if(self.size > 1):
+            this_node = self.root
+            new_list = []
+            while this_node:
+                new_list.append(this_node.get_data())
+                this_node = this_node.get_next()
+            print(sorted(new_list, reverse=True))
+            sortedList = LinkedList()
+            for node in sorted(new_list, reverse=True):
+                new_node = Node(node, self.root)
+                sortedList.add_node(new_node)
+            return sortedList
+        return self
+        
+a = LinkedList()
+a.add(4)
+a.add(2)
+a.add(9)
 
-    def sort (self):
-        if self.size > 1:
-                newlist = [];
-                current = self.root;
-                newlist.append(self.root);
-                while current.has_next():
-                        current = current.get_next();
-                        newlist.append(current);
-                newlist = sorted(newlist, key = lambda node: node.get_data(), reverse = True);
-                newll = LinkedList();
-                for node in newlist:
-                        newll.add_node(node);
-                return newll;
-                   
-
-aList = LinkedList()
-aList.add(15)
-aList.add(28)
-aList.add(12)
-print("size="+str(aList.get_size()))
-aList.remove(8)
-print("size="+str(aList.get_size()))
-print(aList.remove(12))
-print("size="+str(aList.get_size()))
-print(aList.find(1))
-aList.add(99)
-aList.add(23)
-aList.add(0)
-aList.print_list()
-
-bList=aList.sort()
-print('sorted')
-bList.print_list()
-
+a.remove(2)
+a.add(45)
+a.add(23)
+a.add(78)
+print(a.get_size())
+print(a.find(3))
+print(a.find(2))
+print(a.find(23))
+a.print_list()
+sorted_list = a.sort_list()
+sorted_list.print_list()
