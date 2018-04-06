@@ -75,6 +75,30 @@ class LinkedList(object):
                 sortedList.add_node(new_node)
             return sortedList
         return self
+
+    def insert_at_end(self, d):
+        new_node = Node(d)
+        curr_node = self.root
+        while curr_node.get_next():
+            curr_node = curr_node.get_next()
+        curr_node.set_next(new_node)
+            
+        return self
+
+    def insert_after(self, prev_node, new_data):
+        prev_node = Node(prev_node)
+        new_node = Node(new_data)
+        curr_node = self.root
+        ptr_follow_node = None
+        print('prev node data', prev_node.get_data())
+        while curr_node:
+            if curr_node.get_data() == prev_node.get_data():
+                ptr_follow_node = curr_node.get_next()
+                curr_node.set_next(new_node)
+                new_node.set_next(ptr_follow_node)
+                return self
+            curr_node = curr_node.get_next()
+        return self       
         
 a = LinkedList()
 a.add(4)
@@ -90,5 +114,13 @@ print(a.find(3))
 print(a.find(2))
 print(a.find(23))
 a.print_list()
+a.add(88)
+a.print_list()
 sorted_list = a.sort_list()
 sorted_list.print_list()
+
+a = a.insert_at_end(999)
+a.add(777)
+a.print_list()
+a = a.insert_after(23,666)
+a.print_list()
